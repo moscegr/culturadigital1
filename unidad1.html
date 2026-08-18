@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad 1 | Cultura Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#7c3aed', secondary: '#06b6d4', dark: '#0f172a' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['Fira Code', 'monospace'] } } } }
+    </script>
+    <style> 
+        body { background-color: #ffffff; color: #334155; } 
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-id-card text-2xl text-primary"></i>
+                <span class="font-bold text-lg text-dark">Unidad 1: Ciudadanía Digital</span>
+            </div>
+            <div class="space-x-4">
+                <a href="index_culturadigital.html" class="text-sm text-slate-500 hover:text-primary transition"><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="unidad2.html" class="text-sm text-primary font-bold transition">Unidad 2 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-10">
+        <header class="mb-10">
+            <div class="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-3">20 Horas | Semanas 1 a 4</div>
+            <h1 class="text-3xl font-extrabold text-dark mb-4">El Ciberespacio y el Ciudadano Digital</h1>
+            <p class="text-lg text-slate-600 mb-6">El internet no es una zona sin ley. Entenderemos las normativas que protegen nuestra integridad física y mental (Salud Digital), aprenderemos sobre el licenciamiento del software que usamos diario y blindaremos nuestra Identidad Digital frente a estafadores.</p>
+        </header>
+
+        <section class="mb-12">
+            <div class="flex overflow-x-auto border-b border-slate-200 mb-6 hide-scrollbar bg-white sticky top-16 z-40" role="tablist">
+                <button class="px-6 py-3 font-bold text-sm text-primary border-b-2 border-primary whitespace-nowrap focus:outline-none" onclick="openTab('sem1', this)">Semana 1: Normativa y Leyes</button>
+                <button class="px-6 py-3 font-bold text-sm text-slate-500 border-b-2 border-transparent hover:text-primary whitespace-nowrap transition focus:outline-none" onclick="openTab('sem2', this)">Semana 2: Licencias y Salud</button>
+                <button class="px-6 py-3 font-bold text-sm text-slate-500 border-b-2 border-transparent hover:text-primary whitespace-nowrap transition focus:outline-none" onclick="openTab('sem3', this)">Semana 3: Amenazas (Malware)</button>
+                <button class="px-6 py-3 font-bold text-sm text-slate-500 border-b-2 border-transparent hover:text-primary whitespace-nowrap transition focus:outline-none" onclick="openTab('sem4', this)">Semana 4: Huella Digital</button>
+            </div>
+
+            <div id="sem1" class="tab-content active bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-violet-100 text-primary px-2 py-1 rounded text-xs font-bold">RA 1.1</span>
+                    <h3 class="text-xl font-bold text-dark">Normatividad y Comportamiento en el Ciberespacio</h3>
+                </div>
+                
+                <h4 class="font-bold text-primary mb-2"><i class="fa-solid fa-book-journal-whills mr-2"></i>Glosario Técnico:</h4>
+                <ul class="text-sm text-slate-600 list-disc ml-6 space-y-2 mb-6">
+                    <li><strong>Ciudadanía Digital:</strong> Es el conjunto de derechos, obligaciones y valores que rigen la interacción de las personas en el entorno virtual (Internet).</li>
+                    <li><strong>Netiqueta (Netiquette):</strong> Las normas de cortesía y buena educación en internet (ej. no escribir en MAYÚSCULAS porque equivale a gritar).</li>
+                    <li><strong>Ley Olimpia (México):</strong> Conjunto de reformas legales que penalizan la violencia digital, como compartir contenido íntimo sin consentimiento (Ciberviolencia).</li>
+                </ul>
+
+                <h4 class="font-bold text-primary mb-2"><i class="fa-solid fa-gavel mr-2"></i>Lógica Cívica: Derechos ARCO</h4>
+                <div class="bg-slate-50 border-l-4 border-primary p-4 rounded-r-lg mb-6 text-sm text-slate-700">
+                    <p>En México, la protección de datos se rige por los Derechos <strong>ARCO</strong>:</p>
+                    <ul class="mt-2 space-y-1">
+                        <li><strong>A</strong>cceso: Derecho a saber qué datos tiene una empresa sobre ti.</li>
+                        <li><strong>R</strong>ectificación: Derecho a corregir datos falsos o desactualizados.</li>
+                        <li><strong>C</strong>ancelación: Derecho a pedir que borren tus datos de sus servidores.</li>
+                        <li><strong>O</strong>posición: Derecho a negarte a que usen tus datos para publicidad.</li>
+                    </ul>
+                </div>
+
+                <h4 class="font-bold text-primary mb-3"><i class="fa-solid fa-laptop-code mr-2"></i>5 Ejercicios Prácticos (Hands-On):</h4>
+                <ol class="text-sm text-slate-700 list-decimal ml-6 space-y-3">
+                    <li><strong>Análisis de la Ley Olimpia:</strong> Investiga en internet las penas (años de cárcel y multas) estipuladas en la Ley Olimpia en tu estado. Redacta un párrafo resumiéndolo.</li>
+                    <li><strong>El Decálogo de la Netiqueta:</strong> Crea en tu procesador de textos (Word) un póster con las 10 reglas de oro para comportarse en los foros de tu escuela.</li>
+                    <li><strong>Solicitud de Cancelación (Derechos ARCO):</strong> Redacta un correo electrónico formal simulando que le pides a Facebook (Meta) que elimine una foto tuya de sus servidores usando tu derecho de Cancelación.</li>
+                    <li><strong>Auditoría de Términos de Servicio:</strong> Entra a la página de WhatsApp o TikTok. Busca la sección "Términos y Condiciones" y encuentra qué dicen sobre la "Propiedad del contenido" que subes. ¿Es tuyo o de ellos?</li>
+                    <li><strong>Debate de Cyberbullying:</strong> Plantea una situación de acoso cibernético en el grupo. Desarrollen una secuencia de pasos para reportar legalmente este incidente a la Policía Cibernética Mexicana.</li>
+                </ol>
+            </div>
+
+            <div id="sem2" class="tab-content bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-violet-100 text-primary px-2 py-1 rounded text-xs font-bold">RA 1.1</span>
+                    <h3 class="text-xl font-bold text-dark">Licenciamiento de Software y Salud Digital</h3>
+                </div>
+                
+                <h4 class="font-bold text-primary mb-2"><i class="fa-solid fa-book-journal-whills mr-2"></i>Glosario Técnico:</h4>
+                <ul class="text-sm text-slate-600 list-disc ml-6 space-y-2 mb-6">
+                    <li><strong>Freeware vs Free Software:</strong> <em>Freeware</em> es gratis (como Skype), pero no puedes modificarlo. <em>Free Software</em> (Código Abierto) es gratis Y puedes ver y modificar sus entrañas (como Linux o Python).</li>
+                    <li><strong>Software Propietario (Privativo):</strong> Código cerrado. Pagas una licencia por usarlo, pero no eres el dueño del programa (ej. Microsoft Windows, Adobe Photoshop).</li>
+                    <li><strong>Creative Commons (CC):</strong> Licencias gratuitas para imágenes, música o videos que permiten a los creadores decir "Puedes usar mi foto, pero solo si me das crédito y no la vendes".</li>
+                    <li><strong>Tecnoestrés:</strong> Enfermedad mental provocada por la dependencia extrema, la fatiga visual y la saturación de notificaciones de los dispositivos tecnológicos.</li>
+                </ul>
+
+                <h4 class="font-bold text-primary mb-2"><i class="fa-solid fa-heart-pulse mr-2"></i>Salud Digital: La Regla 20-20-20</h4>
+                <div class="bg-slate-900 text-cyan-300 text-sm font-mono p-4 rounded-lg mb-6">
+                    [PROTOCOLO DE SALUD VISUAL PARA PROGRAMADORES]<br>
+                    Si (Tiempo_en_pantalla == 20 minutos) {<br>
+                    &nbsp;&nbsp;&nbsp;Pausar_actividad();<br>
+                    &nbsp;&nbsp;&nbsp;Mirar_objeto_a(20 pies_de_distancia); // ~6 metros<br>
+                    &nbsp;&nbsp;&nbsp;Mantener_mirada(20 segundos);<br>
+                    }
+                </div>
+
+                <h4 class="font-bold text-primary mb-3"><i class="fa-solid fa-laptop-code mr-2"></i>5 Ejercicios Prácticos:</h4>
+                <ol class="text-sm text-slate-700 list-decimal ml-6 space-y-3">
+                    <li><strong>Inventario de Licencias:</strong> Revisa tu computadora/celular. Haz una tabla listando 3 softwares privativos (ej. Excel) y 3 softwares Open Source (ej. VLC, Firefox) que uses diariamente.</li>
+                    <li><strong>Búsqueda en Creative Commons:</strong> Entra a Google Images. Usa las herramientas de búsqueda para filtrar imágenes por "Licencias Creative Commons". Descarga una imagen que puedas usar legalmente para un proyecto comercial.</li>
+                    <li><strong>Análisis de Ergonomía:</strong> Observa a un compañero usar la computadora. Documenta en viñetas qué postura tiene su espalda, altura de la pantalla y posición de las muñecas. Sugiere correcciones.</li>
+                    <li><strong>Configuración del Filtro de Luz Azul:</strong> En Windows o Android, busca y activa la opción "Luz Nocturna" (Night Light) o "Descanso Visual". Explica cómo afecta la luz azul a los ritmos circadianos (el sueño).</li>
+                    <li><strong>Producto Digital (Entregable RA 1.1):</strong> Elabora una infografía (en Canva o Word) sobre "Salud Digital", incluyendo postura, regla 20-20-20 y cómo evitar el Tecnoestrés. Compártela en formato PDF.</li>
+                </ol>
+            </div>
+
+            <div id="sem3" class="tab-content bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-cyan-100 text-secondary px-2 py-1 rounded text-xs font-bold">RA 1.2</span>
+                    <h3 class="text-xl font-bold text-dark">Amenazas Informáticas y Vectores de Riesgo</h3>
+                </div>
+                
+                <h4 class="font-bold text-secondary mb-2"><i class="fa-solid fa-book-journal-whills mr-2"></i>Glosario Técnico:</h4>
+                <ul class="text-sm text-slate-600 list-disc ml-6 space-y-2 mb-6">
+                    <li><strong>Malware (Software Malicioso):</strong> Cualquier programa diseñado para dañar, infiltrar o robar datos (Incluye virus, gusanos, troyanos).</li>
+                    <li><strong>Phishing (Suplantación de Identidad):</strong> Ataque psicológico (Ingeniería Social). El atacante envía un correo falso fingiendo ser tu banco para que introduzcas tu contraseña voluntariamente.</li>
+                    <li><strong>Ransomware:</strong> Malware moderno que cifra (secuestra con una clave matemática) todos tus archivos y exige un rescate en criptomonedas para liberarlos.</li>
+                    <li><strong>DDoS (Ataque de Denegación de Servicio):</strong> Inundar un servidor con miles de peticiones basura por segundo hasta que se satura y se cae la página web.</li>
+                </ul>
+
+                <h4 class="font-bold text-secondary mb-2"><i class="fa-solid fa-shield-virus mr-2"></i>Anatomía de un Correo Phishing:</h4>
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg mb-6 text-sm text-slate-700">
+                    <p class="font-bold text-red-600">De: seguridad@banc0-inbursa-soporte.com.mx</p>
+                    <p class="font-bold">Asunto: TU CUENTA SERÁ SUSPENDIDA EN 24 HORAS</p>
+                    <p class="mt-2">Estimado cliente, hemos detectado actividad inusual. Haga clic en el siguiente enlace urgentemente para verificar su identidad o sus fondos serán congelados.</p>
+                    <p class="text-blue-600 underline mt-1">http://login-seguro-verificacion-banco.net/login</p>
+                    <p class="text-xs text-slate-500 mt-3"><em>Errores detectados: El dominio del remitente es falso ("banc0" con cero), usan urgencia (24 horas) para causar pánico, y el enlace no es oficial.</em></p>
+                </div>
+
+                <h4 class="font-bold text-secondary mb-3"><i class="fa-solid fa-laptop-code mr-2"></i>5 Ejercicios Prácticos:</h4>
+                <ol class="text-sm text-slate-700 list-decimal ml-6 space-y-3">
+                    <li><strong>Inspección de URLs:</strong> Busca 3 correos de publicidad en tu bandeja de entrada. Pasa el cursor (sin hacer clic) sobre los botones para leer en la esquina inferior izquierda del navegador a qué URL real apuntan.</li>
+                    <li><strong>Password Cracking Simulado:</strong> Investiga en una página como <em>howsecureismypassword.net</em> cuánto tiempo le tomaría a una computadora descifrar la contraseña "Juan123" vs "C0n4l3p#2026_Informatica!".</li>
+                    <li><strong>Autenticación de Dos Pasos (2FA):</strong> Accede a las configuraciones de seguridad de tu cuenta de Google o Instagram y activa la "Verificación en dos pasos" usando tu número telefónico o Google Authenticator.</li>
+                    <li><strong>Casos Reales de Ransomware:</strong> Investiga el ataque del ransomware "WannaCry" en 2017. Escribe un resumen de qué instituciones paralizó (hospitales, empresas) y cómo se propagaba.</li>
+                    <li><strong>Creación de un Password Manager:</strong> En lugar de usar la misma contraseña, investiga qué es un "Gestor de Contraseñas" (como Bitwarden o 1Password) y anota 3 ventajas de usarlo.</li>
+                </ol>
+            </div>
+
+            <div id="sem4" class="tab-content bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-cyan-100 text-secondary px-2 py-1 rounded text-xs font-bold">RA 1.2</span>
+                    <h3 class="text-xl font-bold text-dark">Identidad, Huella Digital y Redes Privadas</h3>
+                </div>
+                
+                <h4 class="font-bold text-secondary mb-2"><i class="fa-solid fa-book-journal-whills mr-2"></i>Glosario Técnico:</h4>
+                <ul class="text-sm text-slate-600 list-disc ml-6 space-y-2 mb-6">
+                    <li><strong>Huella Digital (Digital Footprint):</strong> El rastro imborrable de datos que dejas cada vez que usas internet (búsquedas, likes, ubicaciones, compras). Se divide en activa (lo que publicas) y pasiva (cookies, IP).</li>
+                    <li><strong>Cookies:</strong> Pequeños archivos de texto que las páginas web guardan en tu navegador para recordarte, pero también para rastrear tus hábitos por toda la web.</li>
+                    <li><strong>VPN (Virtual Private Network):</strong> Un túnel cifrado que oculta tu dirección IP real y encripta tu tráfico, impidiendo que tu proveedor de internet (ISP) o el WiFi de la cafetería vean qué estás haciendo.</li>
+                </ul>
+
+                <h4 class="font-bold text-secondary mb-3"><i class="fa-solid fa-laptop-code mr-2"></i>5 Ejercicios Prácticos (Entregables RA 1.2):</h4>
+                <ol class="text-sm text-slate-700 list-decimal ml-6 space-y-3">
+                    <li><strong>Egosurfing:</strong> Abre una ventana de "Incógnito" en tu navegador. Pon tu nombre completo entre comillas (ej. "Juan Pérez López"). Analiza qué información tuya es pública (fotos antiguas, registros escolares, redes).</li>
+                    <li><strong>Auditoría de Privacidad en Redes:</strong> Entra a tu red social principal (Facebook/Instagram). Configura tu cuenta para que tu perfil no aparezca en los motores de búsqueda públicos y restringe quién puede ver tu lista de amigos.</li>
+                    <li><strong>Gestión de Cookies:</strong> En el navegador Chrome o Edge, ve a Configuración > Privacidad > Cookies. Borra las cookies de terceros y activa la opción "No realizar seguimiento" (Do Not Track).</li>
+                    <li><strong>Prueba de Navegación VPN:</strong> Descarga una extensión de VPN gratuita (como ProtonVPN o TunnelBear). Conéctate a un servidor en Japón. Entra a la página <em>cual-es-mi-ip.net</em> y verifica cómo el internet ahora "cree" que estás en Asia.</li>
+                    <li><strong>Material Multimedia (Entregable RA 1.2):</strong> Elabora una presentación (PowerPoint) expresando los "Pros y Contras de los entornos virtuales", incluyendo la huella digital y el robo de identidad. Súbela a Google Drive y comparte el enlace de solo lectura.</li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('button[role="tab"]').forEach(b => {
+                b.classList.remove('text-primary', 'border-primary', 'text-secondary', 'border-secondary');
+                b.classList.add('text-slate-500', 'border-transparent');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            // Apply specific colors depending on the RA unit
+            if(tabId === 'sem1' || tabId === 'sem2') {
+                btn.classList.remove('text-slate-500', 'border-transparent');
+                btn.classList.add('text-primary', 'border-primary');
+            } else {
+                btn.classList.remove('text-slate-500', 'border-transparent');
+                btn.classList.add('text-secondary', 'border-secondary');
+            }
+        }
+        document.querySelectorAll('button[onclick^="openTab"]').forEach(btn => btn.setAttribute('role', 'tab'));
+    </script>
+</body>
+</html>
