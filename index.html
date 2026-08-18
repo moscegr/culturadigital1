@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura Digital | Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                    colors: {
+                        primary: '#7c3aed', // Violet 600
+                        secondary: '#06b6d4', // Cyan 500
+                        accent: '#d946ef', // Fuchsia 500
+                        dark: '#0f172a' // Slate 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #ffffff; color: #334155; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.1), 0 8px 10px -6px rgba(124, 58, 237, 0.1); border-color: #7c3aed; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-3xl text-primary"></i>
+                    <span class="font-bold text-xl tracking-tight text-dark">Cultura<span class="text-secondary">Digital</span> ATDI-00</span>
+                </div>
+                <div class="hidden md:flex space-x-6 overflow-x-auto text-sm font-semibold">
+                    <a href="index_culturadigital.html" class="text-primary border-b-2 border-primary py-5 whitespace-nowrap">Inicio</a>
+                    <a href="unidad1.html" class="text-slate-500 hover:text-primary py-5 transition whitespace-nowrap">Unidad 1</a>
+                    <a href="unidad2.html" class="text-slate-500 hover:text-primary py-5 transition whitespace-nowrap">Unidad 2</a>
+                    <a href="unidad3.html" class="text-slate-500 hover:text-primary py-5 transition whitespace-nowrap">Unidad 3</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-10">
+        <header class="text-center mb-16">
+            <div class="inline-block bg-violet-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Núcleo de Formación Interdisciplinar</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-dark mb-4">Aplicación de <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Tecnologías Digitales</span></h1>
+            <p class="text-xl text-slate-500 max-w-3xl mx-auto">CONALEP - 1er Semestre. 90 Horas Semestrales | 5 Horas/Semana.</p>
+            
+            <div class="mt-8 inline-block bg-slate-50 border border-slate-200 rounded-xl p-6 text-left shadow-sm max-w-4xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+                <p class="text-sm text-secondary font-bold mb-2"><i class="fa-solid fa-laptop-code mr-2"></i>Mensaje del Docente:</p>
+                <p class="text-sm text-slate-700 leading-relaxed">Bienvenidos al ecosistema digital. Esta no es una clase para aprender a usar redes sociales, es una clase para <strong>entender cómo funcionan</strong> y cómo protegernos. Durante estas 90 horas dejaremos de ser simples consumidores de contenido para convertirnos en ciudadanos digitales críticos. Aprenderemos desde el marco legal (Ley Olimpia, Derechos de Autor), pasando por la lógica computacional (Algoritmos), hasta la creación de páginas web (HTML) y la comprensión de la Inteligencia Artificial (IA) y la Ciencia de Datos.</p>
+            </div>
+        </header>
+
+        <h2 class="text-2xl font-bold mb-8 border-b-2 border-slate-200 pb-2"><i class="fa-solid fa-map-location-dot text-primary mr-2"></i>Mapa del Semestre (18 Semanas)</h2>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            
+            <!-- Unidad 1 -->
+            <a href="unidad1.html" class="block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm card-hover transition duration-300 relative group">
+                <div class="absolute top-0 right-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-b-lg">20 Hrs (Semanas 1-4)</div>
+                <div class="bg-violet-50 w-12 h-12 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-id-card text-primary text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-dark mb-2">Unidad 1: Ciudadanía Digital</h3>
+                <p class="text-xs text-slate-500 mb-4 line-clamp-2">Regulación, identidad y resguardo de interacciones en el ciberespacio.</p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <ul class="text-xs text-slate-600 list-disc ml-4 space-y-1">
+                        <li><strong>RA 1.1:</strong> Normatividad, Salud Digital y Licencias.</li>
+                        <li><strong>RA 1.2:</strong> Identidad, Amenazas (Phishing, Malware) y Huella Digital.</li>
+                    </ul>
+                </div>
+            </a>
+
+            <!-- Unidad 2 -->
+            <a href="unidad2.html" class="block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm card-hover transition duration-300 relative group">
+                <div class="absolute top-0 right-4 bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded-b-lg">30 Hrs (Semanas 5-10)</div>
+                <div class="bg-cyan-50 w-12 h-12 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-network-wired text-secondary text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-dark mb-2">Unidad 2: Lenguaje Algorítmico</h3>
+                <p class="text-xs text-slate-500 mb-4 line-clamp-2">Representación y solución de problemas mediante lógica estructurada.</p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <ul class="text-xs text-slate-600 list-disc ml-4 space-y-1">
+                        <li><strong>RA 2.1:</strong> Métodos de solución y Diagramas de Flujo (Mermaid/PSeInt).</li>
+                        <li><strong>RA 2.2:</strong> Variables, Constantes y Estructuras Condicionales/Repetitivas.</li>
+                    </ul>
+                </div>
+            </a>
+
+            <!-- Unidad 3 -->
+            <a href="unidad3.html" class="block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm card-hover transition duration-300 relative group">
+                <div class="absolute top-0 right-4 bg-accent text-white text-[10px] font-bold px-2 py-1 rounded-b-lg">40 Hrs (Semanas 11-18)</div>
+                <div class="bg-fuchsia-50 w-12 h-12 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-microchip text-accent text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-dark mb-2">Unidad 3: Herramientas Productivas</h3>
+                <p class="text-xs text-slate-500 mb-4 line-clamp-2">Investigación, HTML, Redes y Tecnologías de la Industria 4.0.</p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <ul class="text-xs text-slate-600 list-disc ml-4 space-y-1">
+                        <li><strong>RA 3.1:</strong> Comunidades Virtuales y Teoría del Color.</li>
+                        <li><strong>RA 3.2:</strong> Cyber Etnografía, HTML Web y Datos (Media, Moda, Gráficas).</li>
+                        <li><strong>RA 3.3:</strong> Redes (LAN/WAN), Inteligencia Artificial (IA) e IoT.</li>
+                    </ul>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <footer class="bg-slate-50 text-slate-500 py-8 text-center text-sm border-t border-slate-200 mt-auto">
+        <p>CONALEP - Cultura Digital | Núcleo de Formación Interdisciplinar</p>
+    </footer>
+</body>
+</html>
