@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planeación Docente: Cultura Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: {
+                        brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 900: '#134e4a', }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow: hidden; }
+        
+        /* Animaciones para las vistas */
+        .view-section { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .view-section.active { display: block; opacity: 1; animation: fadeIn 0.4s forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos del Sidebar */
+        .sidebar-scroll { overflow-y: auto; max-height: calc(100vh - 4rem); }
+        .sidebar-scroll::-webkit-scrollbar { width: 6px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+        
+        .nav-item { cursor: pointer; transition: all 0.2s; }
+        .nav-item:hover { background-color: #f1f5f9; color: #0d9488; }
+        .nav-item.active { background-color: #e0f2fe; color: #0369a1; border-left: 4px solid #0284c7; font-weight: 600; }
+        
+        .week-link { padding-left: 2.5rem; font-size: 0.875rem; color: #64748b; }
+        .week-link:hover { color: #0d9488; }
+        .week-link.active { color: #0d9488; font-weight: 600; list-style-type: disc; position: relative; }
+        .week-link.active::before { content: '•'; position: absolute; left: 1.5rem; color: #0d9488; font-size: 1.2rem; top: 50%; transform: translateY(-50%); }
+
+        .content-scroll { overflow-y: auto; height: 100vh; }
+        
+        /* Estilos adicionales para menú responsivo */
+        .mobile-overlay { display: none; background-color: rgba(0,0,0,0.5); position: fixed; inset: 0; z-20; }
+        .mobile-overlay.active { display: block; }
+    </style>
+</head>
+<body class="flex bg-gray-50 text-gray-800 overflow-hidden">
+
+    <!-- Overlay para móvil -->
+    <div id="mobile-overlay" class="mobile-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Sidebar de Navegación responsivo -->
+    <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex-shrink-0 fixed md:relative h-screen shadow-2xl md:shadow-sm z-30 transition-transform duration-300 transform -translate-x-full md:translate-x-0 flex flex-col">
+        <div class="h-16 flex items-center justify-between px-6 border-b border-gray-200 bg-brand-900 text-white flex-shrink-0">
+            <div class="flex items-center">
+                <i class="fa-solid fa-laptop-code text-brand-100 text-xl mr-3"></i>
+                <span class="font-bold text-lg tracking-tight">Cultura Digital</span>
+            </div>
+            <button class="md:hidden text-white hover:text-brand-200" onclick="toggleMobileMenu()"><i class="fa-solid fa-xmark text-2xl"></i></button>
+        </div>
+        
+        <div class="sidebar-scroll py-4 flex-grow">
+            <!-- Inicio -->
+            <div class="px-4 mb-2">
+                <div onclick="navigate('home')" id="nav-home" class="nav-item active px-4 py-2 rounded-md font-medium flex items-center mb-1">
+                    <i class="fa-solid fa-house w-6 text-center mr-2"></i> Inicio / Temario
+                </div>
+                <div onclick="navigate('diagnostic')" id="nav-diagnostic" class="nav-item px-4 py-2 rounded-md font-medium flex items-center text-sm text-amber-700 bg-yellow-50 border border-yellow-200 hover:bg-yellow-100">
+                    <i class="fa-solid fa-clipboard-question w-6 text-center mr-2 text-yellow-600"></i> Eval. Diagnóstica
+                </div>
+            </div>
+
+            <!-- Unidad 1 -->
+            <div class="px-4 mb-2 mt-4">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 pl-4">Unidad 1 (20 hrs)</div>
+                <div onclick="navigate('u1')" id="nav-u1" class="nav-item px-4 py-2 rounded-md font-medium flex items-center mb-1">
+                    <i class="fa-solid fa-globe w-6 text-center mr-2 text-blue-600"></i> Ciudadanía Digital
+                </div>
+                <ul class="space-y-1">
+                    <li onclick="navigate('u1-w1')" id="nav-u1-w1" class="nav-item week-link py-1.5 rounded-md">Semana 1: Normatividad</li>
+                    <li onclick="navigate('u1-w2')" id="nav-u1-w2" class="nav-item week-link py-1.5 rounded-md">Semana 2: Privacidad</li>
+                    <li onclick="navigate('u1-w3')" id="nav-u1-w3" class="nav-item week-link py-1.5 rounded-md">Semana 3: Amenazas</li>
+                    <li onclick="navigate('u1-w4')" id="nav-u1-w4" class="nav-item week-link py-1.5 rounded-md">Semana 4: Consecuencias</li>
+                </ul>
+            </div>
+
+            <!-- Unidad 2 -->
+            <div class="px-4 mb-2 mt-4">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 pl-4">Unidad 2 (30 hrs)</div>
+                <div onclick="navigate('u2')" id="nav-u2" class="nav-item px-4 py-2 rounded-md font-medium flex items-center mb-1">
+                    <i class="fa-solid fa-sitemap w-6 text-center mr-2 text-purple-600"></i> Lenguaje Algorítmico
+                </div>
+                <ul class="space-y-1">
+                    <li onclick="navigate('u2-w5')" id="nav-u2-w5" class="nav-item week-link py-1.5 rounded-md">Semana 5: Metodología 5E</li>
+                    <li onclick="navigate('u2-w6')" id="nav-u2-w6" class="nav-item week-link py-1.5 rounded-md">Semana 6: Diagramación</li>
+                    <li onclick="navigate('u2-w7')" id="nav-u2-w7" class="nav-item week-link py-1.5 rounded-md">Semana 7: Diseño Top-Down</li>
+                    <li onclick="navigate('u2-w8')" id="nav-u2-w8" class="nav-item week-link py-1.5 rounded-md">Semana 8: Variables</li>
+                    <li onclick="navigate('u2-w9')" id="nav-u2-w9" class="nav-item week-link py-1.5 rounded-md">Semana 9: Condicionales</li>
+                    <li onclick="navigate('u2-w10')" id="nav-u2-w10" class="nav-item week-link py-1.5 rounded-md">Semana 10: Cíclicas</li>
+                </ul>
+            </div>
+
+            <!-- Unidad 3 -->
+            <div class="px-4 mb-8 mt-4">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 pl-4">Unidad 3 (40 hrs)</div>
+                <div onclick="navigate('u3')" id="nav-u3" class="nav-item px-4 py-2 rounded-md font-medium flex items-center mb-1">
+                    <i class="fa-solid fa-chart-pie w-6 text-center mr-2 text-orange-600"></i> Productividad
+                </div>
+                <ul class="space-y-1">
+                    <li onclick="navigate('u3-w11')" id="nav-u3-w11" class="nav-item week-link py-1.5 rounded-md">Semana 11: Ofimática</li>
+                    <li onclick="navigate('u3-w12')" id="nav-u3-w12" class="nav-item week-link py-1.5 rounded-md">Semana 12: Teoría del Color</li>
+                    <li onclick="navigate('u3-w13')" id="nav-u3-w13" class="nav-item week-link py-1.5 rounded-md">Semana 13: Cyber Etnografía</li>
+                    <li onclick="navigate('u3-w14')" id="nav-u3-w14" class="nav-item week-link py-1.5 rounded-md">Semana 14: Tendencia Central</li>
+                    <li onclick="navigate('u3-w15')" id="nav-u3-w15" class="nav-item week-link py-1.5 rounded-md">Semana 15: Dispersión/Gráficos</li>
+                    <li onclick="navigate('u3-w16')" id="nav-u3-w16" class="nav-item week-link py-1.5 rounded-md">Semana 16: Redes LAN/WAN</li>
+                    <li onclick="navigate('u3-w17')" id="nav-u3-w17" class="nav-item week-link py-1.5 rounded-md">Semana 17: IA e IoT</li>
+                    <li onclick="navigate('u3-w18')" id="nav-u3-w18" class="nav-item week-link py-1.5 rounded-md">Semana 18: Creación Web</li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Contenedor Principal Scrollable -->
+    <main class="flex-grow content-scroll bg-gray-50 relative w-full flex flex-col">
+        <!-- Mobile Header -->
+        <div class="md:hidden bg-brand-900 text-white h-16 flex items-center justify-between px-4 sticky top-0 z-10 shadow-md flex-shrink-0">
+            <span class="font-bold text-lg">Cultura Digital</span>
+            <button onclick="toggleMobileMenu()"><i class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 flex-grow w-full">
+
+            <!-- ==========================================
+                 PÁGINA: INICIO (INDEX)
+            =========================================== -->
+            <section id="home" class="view-section active">
+                <!-- Hero Intro -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-xl mb-12 flex flex-col md:flex-row border border-gray-100">
+                    <div class="p-8 md:p-12 md:w-2/3 flex flex-col justify-center">
+                        <span class="bg-brand-100 text-brand-700 text-sm font-bold px-3 py-1 rounded-full w-max mb-4 uppercase tracking-wide">Núcleo Interdisciplinar</span>
+                        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">Aplicación de Tecnologías Digitales</h1>
+                        <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                            Bienvenidos al módulo de <strong>Cultura Digital</strong>. Diseñado bajo el Nuevo Marco Curricular Común de la EMS (CONALEP), este espacio promueve la formación de ciudadanos digitales éticos, capaces de resolver problemas mediante el pensamiento computacional y la productividad en la nube.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-clock mr-2 text-brand-600"></i>90 horas totales</span>
+                            <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-calendar-week mr-2 text-brand-600"></i>18 semanas (5 hrs/sem)</span>
+                            <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-users mr-2 text-brand-600"></i>Todas las carreras (1° Semestre)</span>
+                        </div>
+                        <div class="mt-6">
+                            <button onclick="navigate('diagnostic')" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center w-full justify-center md:w-auto">
+                                <i class="fa-solid fa-pen-clip mr-2"></i> Realizar Evaluación Diagnóstica
+                            </button>
+                            <p class="text-xs text-gray-500 mt-2 text-center md:text-left">* Obligatorio para alumnos de nuevo ingreso.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 bg-brand-900 relative min-h-[300px]">
+                        <img src="https://placehold.co/600x800/134e4a/14b8a6?text=Cultura+Digital" alt="Portada Cultura Digital" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa-solid fa-network-wired text-8xl text-brand-100 opacity-80"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Introducción Extendida Pedagógica -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center"><i class="fa-solid fa-book-open text-brand-600 mr-3"></i>Enfoque Pedagógico Docente</h2>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-3">El Docente como Facilitador</h3>
+                                <p class="text-gray-600 mb-4 text-justify leading-relaxed">
+                                    Con base en las Guías Pedagógicas de CONALEP, asumimos un rol de diseñador didáctico e innovador educativo. Fomentamos un <em>aprendizaje situado y profundo</em>, conectando la teoría con la resolución de problemas reales (políticos, ambientales, económicos) a través de proyectos integradores.
+                                </p>
+                                <p class="text-gray-600 text-justify leading-relaxed">
+                                    Aplicaremos la <strong>Metodología 5E</strong> (Enganche, Exploración, Explicación, Elaboración y Evaluación) para mantener un aula activa donde el alumno es el protagonista.
+                                </p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <h3 class="text-lg font-bold text-gray-800 mb-4">Competencias a Desarrollar</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <span class="text-sm text-gray-700">Autogestión del aprendizaje permanente.</span></li>
+                                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <span class="text-sm text-gray-700">Pensamiento algorítmico y resolución de problemas.</span></li>
+                                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <span class="text-sm text-gray-700">Identidad ciudadana en medios digitales segura.</span></li>
+                                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <span class="text-sm text-gray-700">Creación de contenido mediante herramientas TIC, TAC y TEP.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de Navegación Rápida a Unidades -->
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center"><i class="fa-solid fa-layer-group text-brand-600 mr-3"></i>Organización Curricular</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div onclick="navigate('u1')" class="bg-white border-t-4 border-blue-500 p-6 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">20 hrs / 4 Semanas</span>
+                            <i class="fa-solid fa-globe text-2xl text-blue-300 group-hover:text-blue-500 transition"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Unidad 1: Ciudadanía Digital</h3>
+                        <p class="text-sm text-gray-600 mb-4">Normatividad, privacidad, licenciamiento y prevención de riesgos en el ciberespacio.</p>
+                        <span class="text-blue-600 text-sm font-semibold group-hover:underline">Ver planeación <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+
+                    <div onclick="navigate('u2')" class="bg-white border-t-4 border-purple-500 p-6 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">30 hrs / 6 Semanas</span>
+                            <i class="fa-solid fa-sitemap text-2xl text-purple-300 group-hover:text-purple-500 transition"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Unidad 2: Lenguaje Algorítmico</h3>
+                        <p class="text-sm text-gray-600 mb-4">Pensamiento computacional, diagramas de flujo, variables, constantes y estructuras.</p>
+                        <span class="text-purple-600 text-sm font-semibold group-hover:underline">Ver planeación <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+
+                    <div onclick="navigate('u3')" class="bg-white border-t-4 border-orange-500 p-6 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">40 hrs / 8 Semanas</span>
+                            <i class="fa-solid fa-chart-pie text-2xl text-orange-300 group-hover:text-orange-500 transition"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Unidad 3: Productividad</h3>
+                        <p class="text-sm text-gray-600 mb-4">Ofimática nube, estadística, IoT, IA, Redes y creación de multimedia.</p>
+                        <span class="text-orange-600 text-sm font-semibold group-hover:underline">Ver planeación <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 EVALUACIÓN DIAGNÓSTICA (Nuevo Ingreso)
+            =========================================== -->
+            <section id="diagnostic" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('home')">Inicio</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Evaluación Diagnóstica</span></div>
+                
+                <div class="bg-gradient-to-r from-yellow-500 to-amber-500 rounded-3xl p-8 md:p-10 text-white shadow-lg mb-8 relative overflow-hidden">
+                    <div class="relative z-10 w-full md:w-3/4">
+                        <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Evaluación Diagnóstica de Nuevo Ingreso</h1>
+                        <p class="text-yellow-50 text-lg leading-relaxed">Bienvenido al módulo de Cultura Digital. Este breve cuestionario nos ayudará a conocer tus conocimientos previos en tecnología. <strong>No afecta tu calificación</strong>, se utiliza para guiar y adaptar las clases.</p>
+                    </div>
+                    <i class="fa-solid fa-clipboard-check absolute right-10 top-1/2 transform -translate-y-1/2 text-8xl text-yellow-400 opacity-50 hidden md:block"></i>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <form id="diagnostic-form" onsubmit="evaluateDiagnostic(event)">
+                        <div class="space-y-6">
+                            <!-- Pregunta 1 -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <h3 class="font-bold text-gray-900 mb-3">1. ¿Qué es el hardware de una computadora?</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q1" value="b" class="form-radio h-5 w-5 text-brand-600" required>
+                                        <span class="text-gray-700">Las partes físicas y tangibles (teclado, pantalla, procesador).</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q1" value="a" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Los programas y aplicaciones instalados.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q1" value="c" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">El servicio de internet que utilizamos.</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 2 -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <h3 class="font-bold text-gray-900 mb-3">2. Selecciona un ejemplo de Sistema Operativo:</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q2" value="a" class="form-radio h-5 w-5 text-brand-600" required>
+                                        <span class="text-gray-700">Google Chrome o Mozilla Firefox.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q2" value="b" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Microsoft Windows, Linux o macOS.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q2" value="c" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Microsoft Word y Excel.</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 3 -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <h3 class="font-bold text-gray-900 mb-3">3. Recibes un correo diciendo que tu cuenta bancaria ha sido bloqueada y debes dar clic en un enlace para poner tu contraseña. ¿Qué haces?</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q3" value="a" class="form-radio h-5 w-5 text-brand-600" required>
+                                        <span class="text-gray-700">Doy clic rápidamente e ingreso mis datos para no perder mi dinero.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q3" value="b" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Ignoro el enlace, no doy mis datos, ya que parece un intento de Phishing.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q3" value="c" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Le respondo al correo con insultos.</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 4 -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <h3 class="font-bold text-gray-900 mb-3">4. Si necesitas guardar tus tareas para acceder a ellas desde cualquier computadora con internet, es mejor usar:</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q4" value="a" class="form-radio h-5 w-5 text-brand-600" required>
+                                        <span class="text-gray-700">El disco duro de la computadora de la escuela.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q4" value="b" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Un servicio en la nube como Google Drive o OneDrive.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q4" value="c" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">La memoria RAM.</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Pregunta 5 -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <h3 class="font-bold text-gray-900 mb-3">5. ¿Qué significa el término "Huella Digital" en internet?</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q5" value="a" class="form-radio h-5 w-5 text-brand-600" required>
+                                        <span class="text-gray-700">El rastro de datos, búsquedas y publicaciones que dejamos al navegar.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q5" value="b" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">Desbloquear tu dispositivo con el dedo.</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="q5" value="c" class="form-radio h-5 w-5 text-brand-600">
+                                        <span class="text-gray-700">El espacio que ocupa el navegador en disco duro.</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-8 text-center md:text-left">
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition w-full md:w-auto">
+                                Finalizar Evaluación
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Resultados de la Evaluación -->
+                    <div id="diagnostic-results" class="hidden mt-8 p-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-xl">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">¡Evaluación Completada!</h3>
+                        <p class="text-lg text-gray-700 mb-4">Puntaje obtenido: <span id="score-text" class="font-bold text-2xl text-yellow-600"></span> / 5</p>
+                        <div id="feedback-text" class="text-gray-700 mb-6 font-medium"></div>
+                        <button onclick="navigate('u1')" class="bg-brand-600 text-white font-semibold px-6 py-2.5 rounded-lg shadow hover:bg-brand-700 transition w-full sm:w-auto">Comenzar Unidad 1 <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 UNIDAD 1 - PORTADA
+            =========================================== -->
+            <section id="u1" class="view-section">
+                <div class="bg-gradient-to-r from-blue-700 to-blue-500 rounded-3xl p-10 text-white shadow-lg mb-8 relative overflow-hidden">
+                    <div class="relative z-10 w-full md:w-3/4">
+                        <span class="bg-white/20 text-blue-50 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block backdrop-blur-sm">Unidad 1 • 20 Horas • 4 Semanas</span>
+                        <h1 class="text-4xl font-extrabold mb-4">Ejerce la ciudadanía digital en el ciberespacio</h1>
+                        <p class="text-blue-100 text-lg leading-relaxed mb-6">Resultados de Aprendizaje: RA 1.1 Utiliza el ciberespacio bajo normas legales y RA 1.2 Resguarda su identidad previniendo amenazas digitales.</p>
+                        <div class="flex space-x-3">
+                            <button onclick="navigate('u1-w1')" class="bg-white text-blue-700 px-5 py-2.5 rounded-lg font-bold text-sm shadow hover:bg-blue-50 transition">Iniciar Semanas</button>
+                        </div>
+                    </div>
+                    <img src="https://placehold.co/400x400/1e3a8a/60a5fa?text=U1+Ciudadania" alt="Unidad 1" class="absolute right-0 top-0 h-full object-cover mix-blend-overlay opacity-60 hidden md:block">
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <h2 class="text-2xl font-bold mb-4 border-b pb-2">Selecciona una semana de clase (5 horas c/u)</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button onclick="navigate('u1-w1')" class="flex items-center p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-300 transition text-left">
+                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S1</div>
+                            <div><div class="font-bold text-gray-900">Normatividad y Licencias</div><div class="text-sm text-gray-500">RA 1.1 • Conoce tus derechos digitales</div></div>
+                        </button>
+                        <button onclick="navigate('u1-w2')" class="flex items-center p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-300 transition text-left">
+                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S2</div>
+                            <div><div class="font-bold text-gray-900">Salud Digital y Huella</div><div class="text-sm text-gray-500">RA 1.1 • Cuidado del cuerpo y datos</div></div>
+                        </button>
+                        <button onclick="navigate('u1-w3')" class="flex items-center p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-300 transition text-left">
+                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S3</div>
+                            <div><div class="font-bold text-gray-900">Amenazas en la Red</div><div class="text-sm text-gray-500">RA 1.2 • Phishing, Grooming, Malware</div></div>
+                        </button>
+                        <button onclick="navigate('u1-w4')" class="flex items-center p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-300 transition text-left">
+                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S4</div>
+                            <div><div class="font-bold text-gray-900">Consecuencias y 2FA</div><div class="text-sm text-gray-500">RA 1.2 • Ley Olimpia y protección activa</div></div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U1 - SEMANA 1 -->
+            <section id="u1-w1" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u1')">Unidad 1</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 1 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 1: Normatividad y Licencias en el Ciberespacio</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Terminos -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-blue-700 mb-4 flex items-center"><i class="fa-solid fa-book text-blue-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Ciudadanía Digital</strong>
+                                    <p class="text-sm text-gray-600">Conjunto de derechos, obligaciones y valores que los individuos tienen al interactuar en la sociedad a través del uso de las tecnologías.</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Ciberespacio</strong>
+                                    <p class="text-sm text-gray-600">El entorno no físico creado por equipos de cómputo unidos para interoperar en una red. Es donde ocurre la "vida digital".</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Licenciamiento de Software</strong>
+                                    <p class="text-sm text-gray-600">Contrato legal entre el creador del programa y el usuario. Dicta cómo se puede usar, modificar o distribuir (Ej. Comercial, Freeware, Open Source).</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Ejemplo Practico -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Análisis de "Términos y Condiciones" de TikTok / Instagram</h4>
+                                <p class="text-sm text-gray-700 mb-3"><strong>Contexto:</strong> Descargamos una app de moda. Al instalar, nos pide aceptar un documento de 30 páginas.</p>
+                                <p class="text-sm text-gray-700"><strong>Paso a Paso en pantalla:</strong></p>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 mt-2 space-y-2">
+                                    <li>Buscamos en el texto legal la sección "Derechos de Contenido".</li>
+                                    <li>Identificamos la cláusula donde el usuario cede una "licencia mundial, no exclusiva y libre de regalías" a la app sobre sus videos.</li>
+                                    <li><strong>Conclusión grupal:</strong> Reflexionamos que aunque somos dueños del video, la app puede usarlo para publicidad sin pagarnos.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel: Imagen, Caso de Uso, Actividad -->
+                    <div class="space-y-6">
+                        <img src="https://placehold.co/400x250/e0f2fe/1e3a8a?text=Normatividad+Digital" alt="Normas Digitales" class="rounded-xl shadow-sm w-full object-cover">
+                        
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Caso de Uso Cotidiano</h3>
+                            <p class="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1">
+                                Un estudiante necesita usar música de fondo para un proyecto escolar que subirá a YouTube. Debe buscar música con licencia <strong>Creative Commons (CC)</strong> para evitar que su video sea bloqueado por infracción de derechos de autor.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-pen-to-square mr-2"></i>Actividad para Alumnos</h3>
+                            <p class="text-sm mb-4">AE 1.1.1 (Parte 1)</p>
+                            <p class="text-sm font-medium mb-2">Crear un Mapa Mental Colaborativo (Canva o Miro):</p>
+                            <ul class="list-disc list-inside text-xs space-y-1 opacity-90 mb-4">
+                                <li>5 Derechos del ciudadano digital.</li>
+                                <li>5 Obligaciones/Netiqueta.</li>
+                                <li>3 Diferencias entre Freeware y Open Source.</li>
+                            </ul>
+                            <div class="bg-blue-800 p-3 rounded-lg text-xs font-semibold">
+                                <i class="fa-solid fa-check-circle mr-1 text-green-300"></i> Rúbrica: Claridad de conceptos (5%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U1 - SEMANA 2 -->
+            <section id="u1-w2" class="view-section">
+                 <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u1')">Unidad 1</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 2 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 2: Salud Digital, Ergonomía y Huella Digital</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Terminos -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-blue-700 mb-4 flex items-center"><i class="fa-solid fa-heart-pulse text-red-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Salud Digital</strong>
+                                    <p class="text-sm text-gray-600">Bienestar físico, psicológico y emocional en un mundo digitalmente hiperconectado. Incluye el balance entre tiempo de pantalla y descanso.</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Ergonomía Informática</strong>
+                                    <p class="text-sm text-gray-600">Diseño de lugares de trabajo e instrumentos que coinciden con las características fisiológicas del usuario (postura, altura del monitor).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Huella Digital (Digital Footprint)</strong>
+                                    <p class="text-sm text-gray-600">El rastro de datos que dejas detrás de ti al usar internet (historial de búsqueda, likes, ubicaciones).</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Ejemplo Practico -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-red-50 p-5 rounded-xl border border-red-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Rastreando nuestra Huella (Egosearch)</h4>
+                                <p class="text-sm text-gray-700 mb-3"><strong>Contexto:</strong> Mostramos a los alumnos cómo el navegador guarda información y cómo otras personas pueden ver nuestro rastro.</p>
+                                <p class="text-sm text-gray-700"><strong>Paso a Paso:</strong></p>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 mt-2 space-y-2">
+                                    <li>Abrimos el navegador en modo incógnito.</li>
+                                    <li>Buscamos el nombre completo de un voluntario (con permiso) entre comillas "Juan Pérez López".</li>
+                                    <li>Vemos resultados: fotos de torneos deportivos de secundaria, cuentas de redes sociales.</li>
+                                    <li><strong>Reflexión:</strong> Ajustar la privacidad de Facebook para que los motores de búsqueda externos no enlacen a su perfil.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <img src="https://placehold.co/400x250/fef2f2/ef4444?text=Salud+Digital" alt="Salud Digital" class="rounded-xl shadow-sm w-full object-cover">
+                        
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Caso de Uso Cotidiano</h3>
+                            <p class="text-sm text-gray-600 italic border-l-4 border-red-500 pl-3 py-1">
+                                Aplicar la regla <strong>20-20-20</strong>. Por cada 20 minutos frente a una pantalla, mirar un objeto a 20 pies (6 metros) de distancia durante 20 segundos para evitar fatiga visual.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-pen-to-square mr-2"></i>Actividad para Alumnos</h3>
+                            <p class="text-sm mb-4">AE 1.1.1 (Producto Final)</p>
+                            <p class="text-sm font-medium mb-2">Infografía de Autocuidado:</p>
+                            <ul class="list-disc list-inside text-xs space-y-1 opacity-90 mb-4">
+                                <li>Crear una infografía (formato PDF) con 3 enfermedades físicas (ej. Síndrome del túnel carpiano).</li>
+                                <li>3 acciones de autocuidado emocional ante redes sociales (FOMO).</li>
+                                <li>Integrar la normatividad de la semana pasada.</li>
+                            </ul>
+                            <div class="bg-blue-800 p-3 rounded-lg text-xs font-semibold">
+                                <i class="fa-solid fa-check-circle mr-1 text-green-300"></i> Rúbrica: Diseño y sustento teórico (10%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U1 - SEMANA 3 -->
+            <section id="u1-w3" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u1')">Unidad 1</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 3 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 3: Ciberseguridad, Amenazas y Riesgos</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-red-700 mb-4 flex items-center"><i class="fa-solid fa-triangle-exclamation text-red-600 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Phishing</strong>
+                                    <p class="text-sm text-gray-600">Ciberataque que usa correos o SMS falsos (anzuelo) para robar contraseñas o datos bancarios suplantando identidades.</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Grooming</strong>
+                                    <p class="text-sm text-gray-600">Prácticas de un adulto para ganarse la confianza de un menor en internet con fines de abuso.</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Malware & Ransomware</strong>
+                                    <p class="text-sm text-gray-600">Software malicioso; el ransomware específicamente "secuestra" los archivos del usuario pidiendo un rescate en criptomonedas.</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Cyberbullying</strong>
+                                    <p class="text-sm text-gray-600">Acoso o intimidación sistemática repetida a través de medios y plataformas digitales.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Simulación: Identificando un SMS de Phishing</h4>
+                                <p class="text-sm text-gray-700 mb-3"><strong>Contexto:</strong> Mostramos en el proyector la captura de pantalla de un SMS: <em>"Tu paquete de paquetería ha sido retenido, paga $50 de aduana aquí: http://paqueteria-mx-online.xyz/pago"</em>.</p>
+                                <p class="text-sm text-gray-700"><strong>Análisis Forense con alumnos:</strong></p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+                                    <li>Sentido de urgencia (quieren que actúes rápido).</li>
+                                    <li>URL sospechosa (no es el dominio oficial de una empresa real, usa ".xyz").</li>
+                                    <li>Pide dinero directo desde un link.</li>
+                                    <li><strong>Acción:</strong> Bloquear número y eliminar SMS. NUNCA dar clic.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <img src="https://placehold.co/400x250/fee2e2/991b1b?text=Ciberseguridad" alt="Ciberseguridad" class="rounded-xl shadow-sm w-full object-cover">
+                        
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Caso de Uso Cotidiano</h3>
+                            <p class="text-sm text-gray-600 italic border-l-4 border-red-500 pl-3 py-1">
+                                Crear contraseñas robustas usando frases de paso (Ej. "MiPerroTobyComeCroquetas#2024!") en lugar de palabras simples ("password123") para evitar ataques de fuerza bruta.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U1 - SEMANA 4 -->
+            <section id="u1-w4" class="view-section">
+                 <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u1')">Unidad 1</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 4 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 4: Consecuencias Legales y Resguardo Activo</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-blue-700 mb-4 flex items-center"><i class="fa-solid fa-gavel text-gray-700 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Ley Olimpia (México)</strong>
+                                    <p class="text-sm text-gray-600">Conjunto de reformas que reconocen la violencia digital y sancionan los delitos que violen la intimidad sexual de las personas a través de medios digitales (como difundir imágenes íntimas sin consentimiento).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Autenticación de Dos Pasos (2FA)</strong>
+                                    <p class="text-sm text-gray-600">Medida de seguridad que requiere dos formas distintas de identificación para acceder a una cuenta (Ej. Contraseña + Código enviado por SMS o App Authenticator).</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Activando el Escudo: 2FA en WhatsApp / Google</h4>
+                                <p class="text-sm text-gray-700 mb-3"><strong>Práctica Guiada:</strong> Evitar el robo de cuentas ("secuestro de WhatsApp").</p>
+                                <p class="text-sm text-gray-700"><strong>Paso a Paso en sus teléfonos:</strong></p>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 mt-2 space-y-2">
+                                    <li>Abrir Ajustes de WhatsApp -> Cuenta -> Verificación en dos pasos.</li>
+                                    <li>Activar y crear un PIN de 6 dígitos que nunca deben compartir con nadie.</li>
+                                    <li>Ingresar un correo de recuperación.</li>
+                                    <li><strong>Explicación:</strong> Si un hacker intenta registrar su número en otro teléfono, no podrá avanzar sin este PIN.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <img src="https://placehold.co/400x250/dbeafe/1e40af?text=Resguardo+Identidad" alt="Resguardo Identidad" class="rounded-xl shadow-sm w-full object-cover">
+                        
+                        <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-clapperboard mr-2"></i>Actividad Final Unidad 1</h3>
+                            <p class="text-sm mb-4">AE 1.2.1</p>
+                            <p class="text-sm font-medium mb-2">Creación de Material Multimedia (Campaña de Concientización):</p>
+                            <ul class="list-disc list-inside text-xs space-y-2 opacity-90 mb-4">
+                                <li>Crear un video corto (TikTok, Reel) o Podcast escolar (3 mins).</li>
+                                <li>Tema: Pros y Contras de los entornos virtuales.</li>
+                                <li>Exponer claramente las consecuencias legales (Ley Olimpia) de compartir fotos privadas.</li>
+                                <li>Publicarlo en una plataforma (ej. Google Classroom o YouTube no listado).</li>
+                            </ul>
+                            <div class="bg-blue-800 p-3 rounded-lg text-xs font-semibold">
+                                <i class="fa-solid fa-check-circle mr-1 text-green-300"></i> Ponderación Total: 10%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 UNIDAD 2 - PORTADA
+            =========================================== -->
+            <section id="u2" class="view-section">
+                <div class="bg-gradient-to-r from-purple-700 to-purple-500 rounded-3xl p-10 text-white shadow-lg mb-8 relative overflow-hidden">
+                    <div class="relative z-10 w-full md:w-3/4">
+                        <span class="bg-white/20 text-purple-50 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block backdrop-blur-sm">Unidad 2 • 30 Horas • 6 Semanas</span>
+                        <h1 class="text-4xl font-extrabold mb-4">Solución de problemas mediante lenguaje algorítmico</h1>
+                        <p class="text-purple-100 text-lg leading-relaxed mb-6">Resultados de Aprendizaje: RA 2.1 Representa problemas con diagramas y RA 2.2 Emplea estructuras algorítmicas en aplicaciones digitales.</p>
+                        <div class="flex space-x-3">
+                            <button onclick="navigate('u2-w5')" class="bg-white text-purple-700 px-5 py-2.5 rounded-lg font-bold text-sm shadow hover:bg-purple-50 transition">Iniciar Semanas</button>
+                        </div>
+                    </div>
+                    <img src="https://placehold.co/400x400/4c1d95/c084fc?text=U2+Algoritmos" alt="Unidad 2" class="absolute right-0 top-0 h-full object-cover mix-blend-overlay opacity-60 hidden md:block">
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <h2 class="text-2xl font-bold mb-4 border-b pb-2">Selecciona una semana de clase (5 horas c/u)</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <button onclick="navigate('u2-w5')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S5</div>
+                            <div><div class="font-bold text-gray-900">Metodología 5E</div></div>
+                        </button>
+                        <button onclick="navigate('u2-w6')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S6</div>
+                            <div><div class="font-bold text-gray-900">Diagramación</div></div>
+                        </button>
+                        <button onclick="navigate('u2-w7')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S7</div>
+                            <div><div class="font-bold text-gray-900">Diseño Top-Down</div></div>
+                        </button>
+                        <button onclick="navigate('u2-w8')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S8</div>
+                            <div><div class="font-bold text-gray-900">Variables/Datos</div></div>
+                        </button>
+                        <button onclick="navigate('u2-w9')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S9</div>
+                            <div><div class="font-bold text-gray-900">Condicionales</div></div>
+                        </button>
+                        <button onclick="navigate('u2-w10')" class="flex items-center p-4 border rounded-xl hover:bg-purple-50 hover:border-purple-300 transition text-left">
+                            <div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">S10</div>
+                            <div><div class="font-bold text-gray-900">Estructuras Cíclicas</div></div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 5 -->
+            <section id="u2-w5" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 5 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 5: Metodología 5E y Lógica Computacional</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-brain text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Pensamiento Algorítmico</strong>
+                                    <p class="text-sm text-gray-600">Capacidad de definir los pasos claros, finitos y ordenados para resolver un problema.</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Modelo 5E</strong>
+                                    <p class="text-sm text-gray-600">Enfoque constructivista: Enganche (atraer), Explorar (investigar), Explicar (teoría), Elaborar (aplicar), Evaluar (revisar).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Técnica "Divide y Vencerás"</strong>
+                                    <p class="text-sm text-gray-600">Tomar un problema muy complejo y dividirlo en tareas más pequeñas y manejables.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Algoritmo Lógico Cotidiano: Cambiar una Llanta</h4>
+                                <p class="text-sm text-gray-700 mb-3"><strong>Contexto:</strong> Demostrar que un algoritmo es independiente a las computadoras.</p>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 mt-2 space-y-1 font-mono">
+                                    <li>Inicio.</li>
+                                    <li>Estacionar el coche en lugar seguro.</li>
+                                    <li>Sacar la llanta de refacción y el gato hidráulico.</li>
+                                    <li>Aflojar los birlos (sin quitar).</li>
+                                    <li>Levantar el coche con el gato.</li>
+                                    <li>Quitar birlos y llanta ponchada.</li>
+                                    <li>Colocar llanta de refacción y apretar birlos.</li>
+                                    <li>Bajar el coche.</li>
+                                    <li>Fin.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                         <img src="https://placehold.co/400x250/faf5ff/9333ea?text=Logica+Computacional" alt="Lógica" class="rounded-xl shadow-sm w-full object-cover">
+                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Caso de Uso Cotidiano</h3>
+                            <p class="text-sm text-gray-600 italic border-l-4 border-purple-500 pl-3 py-1">
+                                Organizar los pasos para preparar un platillo de cocina siguiendo una receta (que es literalmente un algoritmo).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 6 -->
+            <section id="u2-w6" class="view-section">
+                 <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 6 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 6: Técnicas de Diagramación</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-project-diagram text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Diagrama de Flujo</strong>
+                                    <p class="text-sm text-gray-600">Representación gráfica de un algoritmo o proceso.</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                    <strong class="text-gray-900 block mb-1">Óvalo</strong>
+                                    <div class="border-2 border-gray-400 rounded-full py-1 mx-auto w-1/2 mb-1 text-xs">Inicio / Fin</div>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                    <strong class="text-gray-900 block mb-1">Rectángulo</strong>
+                                    <div class="border-2 border-gray-400 py-1 mx-auto w-1/2 mb-1 text-xs">Proceso / Acción</div>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                    <strong class="text-gray-900 block mb-1">Rombo</strong>
+                                    <div class="border-2 border-gray-400 py-1 mx-auto w-1/2 mb-1 text-xs transform -skew-x-12">Decisión (Sí/No)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-purple-50 p-5 rounded-xl border border-purple-200 text-center">
+                                <h4 class="font-bold text-gray-900 mb-4 text-left">Diagrama: ¿Llevo paraguas?</h4>
+                                <div class="inline-block text-sm font-mono text-gray-800">
+                                    <div class="border border-gray-500 rounded-full px-4 py-1 mb-2">Inicio</div>
+                                    <div>↓</div>
+                                    <div class="border border-gray-500 px-4 py-1 mb-2 bg-white transform skew-x-12">Mirar por la ventana</div>
+                                    <div>↓</div>
+                                    <div class="border border-gray-500 px-4 py-3 mb-2 bg-yellow-100 transform -skew-x-12 flex flex-col items-center justify-center">¿Está lloviendo?</div>
+                                    <div class="flex justify-center space-x-12 w-full">
+                                        <div class="flex flex-col items-center">
+                                            <span class="text-xs font-bold text-green-600">SÍ</span>
+                                            <div>↓</div>
+                                            <div class="border border-gray-500 px-4 py-1 bg-white">Tomar paraguas</div>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <span class="text-xs font-bold text-red-600">NO</span>
+                                            <div>↓</div>
+                                            <div class="border border-gray-500 px-4 py-1 bg-white">No llevar paraguas</div>
+                                        </div>
+                                    </div>
+                                    <div>↓</div>
+                                    <div class="border border-gray-500 rounded-full px-4 py-1 mt-4">Fin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <div class="bg-purple-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-pen-to-square mr-2"></i>Actividad para Alumnos</h3>
+                            <p class="text-sm font-medium mb-2">Diseño de Diagrama en Papel:</p>
+                            <ul class="list-disc list-inside text-xs space-y-2 opacity-90 mb-4">
+                                <li>Problema: Calcular el área de un triángulo.</li>
+                                <li>Deben pedir Base y Altura (Datos de entrada).</li>
+                                <li>Hacer la operación matemática (Proceso).</li>
+                                <li>Mostrar resultado (Salida).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 7 -->
+            <section id="u2-w7" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 7 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 7: Diseño Descendente (Top-Down)</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-folder-tree text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Diseño Top-Down</strong>
+                                    <p class="text-sm text-gray-600">Comenzar con la visión general del sistema y descomponerlo en módulos más pequeños y específicos (Refinamiento por pasos).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Módulo / Subrutina</strong>
+                                    <p class="text-sm text-gray-600">Un bloque de código o algoritmo separado que realiza una tarea muy específica dentro de un programa mayor.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+                                <h4 class="font-bold text-gray-900 mb-2">Sistema Escolar (Top-Down)</h4>
+                                <p class="text-sm text-gray-700"><strong>Nivel 1 (General):</strong> Sistema de Gestión Escolar.</p>
+                                <p class="text-sm text-gray-700 mt-2"><strong>Nivel 2 (Módulos):</strong></p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                    <li>Módulo de Inscripciones.</li>
+                                    <li>Módulo de Calificaciones.</li>
+                                    <li>Módulo de Biblioteca.</li>
+                                </ul>
+                                <p class="text-sm text-gray-700 mt-2"><strong>Nivel 3 (Refinando Biblioteca):</strong></p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                    <li>Buscar libro.</li>
+                                    <li>Prestar libro.</li>
+                                    <li>Devolver libro.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <div class="bg-purple-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-clapperboard mr-2"></i>Actividad de Evaluación</h3>
+                            <p class="text-sm mb-4">AE 2.1.1 (Valor 10%)</p>
+                            <p class="text-sm font-medium mb-2">Modelado de Datos mediante Diagramación:</p>
+                            <ul class="list-disc list-inside text-xs space-y-2 opacity-90 mb-4">
+                                <li>Elegir un problema real (Ej. Proceso para tramitar credencial de elector INE).</li>
+                                <li>Crear el diagrama de flujo usando software como Draw.io o Lucidchart.</li>
+                                <li>Entregar reporte justificando el uso de "Divide y Vencerás".</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 8 -->
+            <section id="u2-w8" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 8 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 8: Variables, Constantes y Operadores</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-cube text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Variable</strong>
+                                    <p class="text-sm text-gray-600">Caja en la memoria cuyo contenido puede cambiar. (Ej. `edad`, `saldo`).</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Constante</strong>
+                                    <p class="text-sm text-gray-600">Un valor en memoria que NUNCA cambia durante el programa (Ej. `PI = 3.1416`).</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Tipos de Datos</strong>
+                                    <p class="text-sm text-gray-600">Entero (5), Real/Float (5.2), Carácter/Cadena ("Hola"), Lógico/Booleano (True/False).</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block mb-1">Op. Lógicos y Relacionales</strong>
+                                    <p class="text-sm text-gray-600">AND (Y), OR (O), NOT (NO). Relacionales: `>`, `<`, `==`, `!=`.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto en Clase</h3>
+                            <div class="bg-gray-900 p-5 rounded-xl border border-gray-700 text-gray-300 font-mono text-sm">
+                                <p class="text-green-400">// Evaluar si un ciudadano puede votar usando lógica</p>
+                                <br>
+                                <p>Definir <span class="text-blue-400">edad</span> Como Entero;</p>
+                                <p>Definir <span class="text-blue-400">tiene_ine</span> Como Logico;</p>
+                                <br>
+                                <p>edad = 18;</p>
+                                <p>tiene_ine = Verdadero;</p>
+                                <br>
+                                <p>Evaluar: (edad >= 18) <span class="text-purple-400">Y</span> (tiene_ine == Verdadero)</p>
+                                <p class="text-yellow-400">Resultado: Verdadero (Puede Votar)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 9 -->
+            <section id="u2-w9" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 9 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 9: Estructuras Condicionales (Selectivas)</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-code-branch text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Condicional Simple (Si - Entonces)</strong>
+                                    <p class="text-sm text-gray-600">Ejecuta un bloque de código SOLO si una condición es verdadera.</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Condicional Doble (Si - Sino)</strong>
+                                    <p class="text-sm text-gray-600">Ofrece un camino a seguir si es Verdadero, y otro camino distinto si es Falso.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-yellow-600 mb-4 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Ejemplo Práctico Resuelto: Pseudocódigo en PSeInt</h3>
+                            <div class="bg-gray-900 p-5 rounded-xl border border-gray-700 text-gray-300 font-mono text-sm overflow-x-auto">
+                                <p class="text-purple-400">Algoritmo Tienda_Descuento</p>
+                                <p class="pl-4">Definir compra, total Como Real;</p>
+                                <p class="pl-4">Escribir "Ingrese el monto de la compra:";</p>
+                                <p class="pl-4">Leer compra;</p>
+                                <br>
+                                <p class="pl-4 text-yellow-400">Si compra > 1000 Entonces</p>
+                                <p class="pl-8 text-green-400">// Descuento del 10%</p>
+                                <p class="pl-8">total = compra * 0.90;</p>
+                                <p class="pl-8">Escribir "Felicidades, tienes descuento. Pagas: ", total;</p>
+                                <p class="pl-4 text-yellow-400">Sino</p>
+                                <p class="pl-8">total = compra;</p>
+                                <p class="pl-8">Escribir "No hay descuento. Pagas: ", total;</p>
+                                <p class="pl-4 text-yellow-400">FinSi</p>
+                                <p class="text-purple-400">FinAlgoritmo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U2 - SEMANA 10 -->
+            <section id="u2-w10" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u2')">Unidad 2</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 10 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 10: Estructuras Cíclicas y Producto Final</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center"><i class="fa-solid fa-rotate-right text-purple-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Bucle FOR (Para)</strong>
+                                    <p class="text-sm text-gray-600">Repite una instrucción un número determinado de veces (Ej. Contar de 1 a 10).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Bucle WHILE (Mientras)</strong>
+                                    <p class="text-sm text-gray-600">Repite una instrucción *mientras* una condición siga siendo verdadera. (Ej. Jugar mientras Vidas > 0).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <div class="bg-purple-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-clapperboard mr-2"></i>Actividad de Evaluación Final</h3>
+                            <p class="text-sm mb-4">AE 2.2.1 (Valor 15%)</p>
+                            <p class="text-sm font-medium mb-2">Programación en Entorno Digital (PSeInt / Scratch):</p>
+                            <ul class="list-disc list-inside text-xs space-y-2 opacity-90 mb-4">
+                                <li>Desarrollar un programa funcional que resuelva un problema de Ciencias Experimentales (Ej. Conversión de Grados Celsius a Fahrenheit).</li>
+                                <li>Debe incluir: Variables, Operaciones aritméticas y al menos una condición (`Si-Entonces`).</li>
+                                <li>Entregar archivo fuente y ejecución en pantalla.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 UNIDAD 3 - PORTADA
+            =========================================== -->
+            <section id="u3" class="view-section">
+                <div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-3xl p-10 text-white shadow-lg mb-8 relative overflow-hidden">
+                    <div class="relative z-10 w-full md:w-3/4">
+                        <span class="bg-white/20 text-orange-50 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block backdrop-blur-sm">Unidad 3 • 40 Horas • 8 Semanas</span>
+                        <h1 class="text-4xl font-extrabold mb-4">Herramientas digitales para la productividad</h1>
+                        <p class="text-orange-100 text-lg leading-relaxed mb-6">Resultados de Aprendizaje: RA 3.1 Nube, RA 3.2 Investigación Digital y RA 3.3 Creación Web y Redes.</p>
+                        <div class="flex space-x-3">
+                            <button onclick="navigate('u3-w11')" class="bg-white text-orange-600 px-5 py-2.5 rounded-lg font-bold text-sm shadow hover:bg-orange-50 transition">Iniciar Semanas</button>
+                        </div>
+                    </div>
+                    <img src="https://placehold.co/400x400/c2410c/fb923c?text=U3+Productividad" alt="Unidad 3" class="absolute right-0 top-0 h-full object-cover mix-blend-overlay opacity-60 hidden md:block">
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <h2 class="text-2xl font-bold mb-4 border-b pb-2">Selecciona una semana de clase (5 horas c/u)</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="navigate('u3-w11')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">11</div>
+                            <div class="text-sm font-bold text-gray-900">Ofimática Nube</div>
+                        </button>
+                        <button onclick="navigate('u3-w12')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">12</div>
+                            <div class="text-sm font-bold text-gray-900">Teoría del Color</div>
+                        </button>
+                        <button onclick="navigate('u3-w13')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">13</div>
+                            <div class="text-sm font-bold text-gray-900">Cyber Etnografía</div>
+                        </button>
+                        <button onclick="navigate('u3-w14')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">14</div>
+                            <div class="text-sm font-bold text-gray-900">Estadística Media</div>
+                        </button>
+                        <button onclick="navigate('u3-w15')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">15</div>
+                            <div class="text-sm font-bold text-gray-900">Gráficos</div>
+                        </button>
+                        <button onclick="navigate('u3-w16')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">16</div>
+                            <div class="text-sm font-bold text-gray-900">Redes LAN/WAN</div>
+                        </button>
+                        <button onclick="navigate('u3-w17')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">17</div>
+                            <div class="text-sm font-bold text-gray-900">IA e IoT</div>
+                        </button>
+                        <button onclick="navigate('u3-w18')" class="flex items-center p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-300 transition text-left">
+                            <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">18</div>
+                            <div class="text-sm font-bold text-gray-900">Sitios Web Web</div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U3 - SEMANA 11 -->
+            <section id="u3-w11" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 11 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 11: Comunidades Virtuales y Ofimática Nube</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-cloud text-orange-500 mr-2"></i>Términos Técnicos a Enseñar</h3>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Computación en la Nube (Cloud Computing)</strong>
+                                    <p class="text-sm text-gray-600">Servicios informáticos entregados a través de Internet (Google Drive, Microsoft 365).</p>
+                                </li>
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <strong class="text-gray-900 block text-lg mb-1">Trabajo Sincrónico / Asincrónico</strong>
+                                    <p class="text-sm text-gray-600">Sincrónico es al mismo tiempo (ej. editando un doc en vivo). Asincrónico es en tiempos distintos.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                     <!-- Side Panel -->
+                    <div class="space-y-6">
+                        <div class="bg-orange-600 text-white p-6 rounded-2xl shadow-md">
+                            <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-clapperboard mr-2"></i>Actividad de Evaluación</h3>
+                            <p class="text-sm mb-4">AE 3.1.1 (Valor 15%)</p>
+                            <p class="text-sm font-medium mb-2">Creación Documento Colaborativo:</p>
+                            <ul class="list-disc list-inside text-xs space-y-2 opacity-90 mb-4">
+                                <li>En equipos, crear un documento en Google Docs/Word Online sobre el Cambio Climático.</li>
+                                <li>Aplicar estilos de títulos, insertar imágenes, tablas e índice automático.</li>
+                                <li>El docente verificará el historial de versiones para asegurar que todos participaron.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U3 - SEMANA 12 -->
+            <section id="u3-w12" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 12 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 12: Teoría del Color en Presentaciones Electrónicas</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-palette text-orange-500 mr-2"></i>Reglas de Diseño y Metodología</h3>
+                    <p class="text-gray-700 text-sm mb-4">Para crear contenido digital efectivo, los alumnos deben aplicar el círculo cromático y las reglas de diseño (contraste alto para legibilidad, regla 6x6: máximo 6 viñetas, 6 palabras por viñeta).</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="bg-red-50 text-red-900 p-4 rounded text-center w-full">Ejemplo de MAL Contraste<br><span class="text-red-500">Texto casi invisible</span></div>
+                        <div class="bg-gray-900 text-white p-4 rounded text-center w-full">Ejemplo de BUEN Contraste<br><span class="text-yellow-400">Texto claro y legible</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U3 - SEMANA 13 -->
+            <section id="u3-w13" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 13 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 13: Investigación Digital y Cyber Etnografía</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-magnifying-glass text-orange-500 mr-2"></i>Términos</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <strong class="text-gray-900 block text-lg mb-1">Cyber Etnografía</strong>
+                            <p class="text-sm text-gray-600">Estudio online de comunidades y culturas de internet (como foros, subreddits, grupos de Facebook).</p>
+                        </li>
+                    </ul>
+                    <div class="mt-6 bg-orange-50 p-4 border-l-4 border-orange-500 rounded">
+                        <h4 class="font-bold">Práctica:</h4>
+                        <p class="text-sm text-gray-700">Diseñar un formulario online (Google Forms / MS Forms) con 10 preguntas sobre los hábitos de consumo de videojuegos en la escuela.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- U3 - SEMANA 14 -->
+            <section id="u3-w14" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 14 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 14: Procesamiento de Datos (Tendencia Central)</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-gray-700 mb-4">Uso de Excel / Google Sheets para extraer los resultados de la encuesta de la semana 13.</p>
+                    <div class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm">
+                        <p>// Fórmulas a enseñar:</p>
+                        <p>=PROMEDIO(A1:A50)</p>
+                        <p>=MEDIANA(A1:A50)</p>
+                        <p>=MODA.UNO(A1:A50)</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- U3 - SEMANA 15 -->
+             <section id="u3-w15" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 15 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 15: Dispersión y Gráficos Visuales</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                         <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Visualización de Datos</h3>
+                         <p class="text-sm text-gray-600 mb-4">Los alumnos aprenderán a seleccionar el gráfico correcto: Pastel (porcentajes), Barras (comparaciones), Dispersión (relación entre dos variables).</p>
+                    </div>
+                     <!-- AE 3.2.1 -->
+                    <div class="bg-orange-600 text-white p-6 rounded-2xl shadow-md">
+                        <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-clapperboard mr-2"></i>Actividad de Evaluación AE 3.2.1</h3>
+                        <p class="text-sm font-medium mb-2">Entregable: Informe de Investigación (15%)</p>
+                        <p class="text-xs opacity-90">Hoja de cálculo con fórmulas aplicadas (media, moda, mediana, desviación estándar) y un dashboard gráfico resumiendo el Focus Group Online.</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- U3 - SEMANA 16 -->
+             <section id="u3-w16" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 16 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 16: Redes y Telecomunicaciones</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        <div class="p-4 border rounded-xl border-blue-200 bg-blue-50">
+                            <h4 class="font-bold text-blue-900">PAN</h4>
+                            <p class="text-xs text-gray-600 mt-2">Personal Area Network (Bluetooth, Infrarrojo).</p>
+                        </div>
+                        <div class="p-4 border rounded-xl border-green-200 bg-green-50">
+                            <h4 class="font-bold text-green-900">LAN</h4>
+                            <p class="text-xs text-gray-600 mt-2">Local Area Network (Cybercafé, Oficina).</p>
+                        </div>
+                        <div class="p-4 border rounded-xl border-red-200 bg-red-50">
+                            <h4 class="font-bold text-red-900">WAN</h4>
+                            <p class="text-xs text-gray-600 mt-2">Wide Area Network (El Internet Global).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- U3 - SEMANA 17 -->
+             <section id="u3-w17" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 17 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 17: Innovación (IoT, IA, Industria 4.0)</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                     <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-microchip text-orange-500 mr-2"></i>Tecnologías Emergentes</h3>
+                     <p class="text-sm text-gray-700">Exploración de la <strong>Inteligencia Artificial</strong> (ChatGPT, Midjourney) para la productividad ética. Concepto de <strong>Internet de las Cosas (IoT)</strong>: Sensores en la agricultura, relojes inteligentes, casas domóticas.</p>
+                </div>
+            </section>
+
+            <!-- U3 - SEMANA 18 -->
+            <section id="u3-w18" class="view-section">
+                <div class="mb-6 flex items-center text-sm text-gray-500"><span class="cursor-pointer hover:text-brand-600" onclick="navigate('u3')">Unidad 3</span> <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> <span class="font-semibold text-gray-800">Semana 18 (5 Hrs)</span></div>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Semana 18: Creación Web y Cierre Final</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                         <h3 class="text-xl font-bold text-orange-600 mb-4 flex items-center"><i class="fa-solid fa-code text-orange-500 mr-2"></i>HTML Básico y Hosting</h3>
+                         <div class="bg-gray-900 p-4 rounded text-blue-300 font-mono text-sm overflow-x-auto">
+                            &lt;html&gt;<br>
+                            &nbsp;&nbsp;&lt;body&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Mi Proyecto Conalep&lt;/h1&gt;<br>
+                            &nbsp;&nbsp;&lt;/body&gt;<br>
+                            &lt;/html&gt;
+                         </div>
+                    </div>
+                     <!-- AE 3.3.1 -->
+                    <div class="bg-orange-600 text-white p-6 rounded-2xl shadow-md border-4 border-yellow-400">
+                        <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-star mr-2 text-yellow-300"></i>Actividad Final AE 3.3.1</h3>
+                        <p class="text-sm font-medium mb-2">Entregable: Contenido Digital Integrador (20%)</p>
+                        <p class="text-xs opacity-90 leading-relaxed">Crear una página web básica (ej. Google Sites o HTML nativo alojado gratis) que funcione como portafolio digital de evidencias. Debe incluir organizadores gráficos sobre Tipos de Redes e IA, demostrando dominio en diseño y redacción.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        <footer class="bg-white border-t border-gray-200 mt-auto py-6 relative bottom-0 w-full flex-shrink-0">
+            <div class="max-w-6xl mx-auto px-6 text-center text-gray-500 text-xs sm:text-sm">
+                &copy; 2026 Colegio Nacional de Educación Profesional Técnica. Módulo: ATDI-00 | Cultura Digital.
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        
+        // Funcionalidad de menú móvil
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Abrir
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.add('active');
+            } else {
+                // Cerrar
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.remove('active');
+            }
+        }
+
+        // Funcionalidad de SPA (Single Page Application)
+        // Oculta todas las secciones y muestra solo la solicitada
+        function navigate(viewId) {
+            // Cerrar menú móvil si está abierto al navegar
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
+                toggleMobileMenu();
+            }
+
+            // 1. Ocultar todas las vistas
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // 2. Mostrar la vista seleccionada
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+
+            // 3. Actualizar el estado activo en el sidebar principal
+            const navItems = document.querySelectorAll('.nav-item:not(.week-link)');
+            navItems.forEach(item => {
+                item.classList.remove('active', 'bg-e0f2fe', 'text-0369a1', 'border-l-4', 'border-0284c7', 'font-semibold');
+            });
+            
+            // Lógica para resaltar el padre (Unidad) correcto en el Menú
+            let parentNavId = 'nav-home';
+            if (viewId.startsWith('u1')) parentNavId = 'nav-u1';
+            if (viewId.startsWith('u2')) parentNavId = 'nav-u2';
+            if (viewId.startsWith('u3')) parentNavId = 'nav-u3';
+            if (viewId === 'diagnostic') parentNavId = 'nav-diagnostic';
+
+            const activeParentNav = document.getElementById(parentNavId);
+            if (activeParentNav) {
+                // El link de diagnóstico tiene su propio estilo visual, no pisarlo
+                if(parentNavId !== 'nav-diagnostic') {
+                    activeParentNav.classList.add('active');
+                } else {
+                    document.getElementById('nav-home').classList.remove('active');
+                }
+            }
+
+            // 4. Actualizar estado en links de semanas (sub-menús)
+            const weekLinks = document.querySelectorAll('.week-link');
+            weekLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            if (viewId.includes('-w')) {
+                const activeWeekLink = document.getElementById('nav-' + viewId);
+                if (activeWeekLink) {
+                    activeWeekLink.classList.add('active');
+                }
+            }
+
+            // Scroll al inicio de la página interior
+            document.querySelector('.content-scroll').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function evaluateDiagnostic(event) {
+            event.preventDefault(); 
+            
+            const form = document.getElementById('diagnostic-form');
+            const formData = new FormData(form);
+            
+            // Respuestas correctas del diagnóstico
+            const answers = {
+                q1: 'b', // hardware físico
+                q2: 'b', // SO Windows/Mac/Linux
+                q3: 'b', // Phishing: ignorar
+                q4: 'b', // Guardar en la nube
+                q5: 'a'  // Huella digital en internet
+            };
+            
+            let score = 0;
+            
+            // Calcular puntuación
+            for (const [question, correctValue] of Object.entries(answers)) {
+                if (formData.get(question) === correctValue) {
+                    score++;
+                }
+            }
+            
+            // Ocultar formulario y mostrar resultados
+            form.style.display = 'none';
+            const resultsDiv = document.getElementById('diagnostic-results');
+            const scoreText = document.getElementById('score-text');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            scoreText.textContent = score;
+            resultsDiv.classList.remove('hidden');
+            
+            // Proporcionar feedback retroalimentativo
+            if (score === 5) {
+                feedbackText.innerHTML = '¡Excelente trabajo! Tienes bases muy sólidas para iniciar el módulo de Cultura Digital. <i class="fa-solid fa-face-smile text-yellow-500 ml-1"></i>';
+            } else if (score >= 3) {
+                feedbackText.innerHTML = 'Buen intento. Conoces los conceptos básicos, aprenderemos a profundizar en ellos a lo largo del semestre.';
+            } else {
+                feedbackText.innerHTML = 'No te preocupes por el puntaje, el objetivo de esta materia es precisamente que domines todos estos temas desde cero. ¡Vamos a aprender mucho!';
+            }
+        }
+    </script>
+</body>
+</html>
